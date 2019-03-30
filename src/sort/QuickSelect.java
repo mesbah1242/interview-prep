@@ -2,24 +2,32 @@ package sort;
 
 import java.util.Arrays;
 
-public class QuickSort {
+public class QuickSelect {
   public static void main(String[] args) {
     int[] data = {20, 10, 40, 60, 50, 80, 30, 91, 71, 90};
-    quickSort(data, 0, data.length-1);
-    System.out.println(Arrays.toString(data));
+    System.out.println(select(data,0,data.length-1, 5));
 
   }
 
-  public static void quickSort(int[] arr, int lo, int hi) {
-    if(lo<hi){
-      int p = partition(arr, lo, hi);
-      quickSort(arr, lo, p-1);
-      quickSort(arr, p+1, hi);
+  public static int select(int[] arr, int lo, int hi, int k) {
+    while(true){
+      if(lo==hi)
+        return arr[lo];
+      int pivotIndex = (lo+hi)/2;
+      int p = partition(arr,lo,hi, pivotIndex);
+      if(k==p)
+        return arr[p];
+      else if(k<p)
+        hi = p-1;
+      else
+        lo = p+1;
     }
+
   }
 
-  public static int partition(int[] arr, int lo, int hi) {
-    int pivot = arr[hi];
+  public static int partition(int[] arr, int lo, int hi, int pivotIndex) {
+    int pivot = arr[pivotIndex];
+    swap(arr, pivotIndex, hi);
     int i = lo;
     for(int j = lo; j < hi; j++) {
       if(arr[j] < pivot) {
